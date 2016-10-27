@@ -2,20 +2,21 @@
 
 require('dotenv').config();
 
-const PORT        = process.env.PORT || 8080;
-const ENV         = process.env.ENV || "development";
-const express     = require("express");
-const bodyParser  = require("body-parser");
-const sass        = require("node-sass-middleware");
-const app         = express();
+const PORT         = process.env.PORT || 8080;
+const ENV          = process.env.ENV || "development";
+const express      = require("express");
+const bodyParser   = require("body-parser");
+const sass         = require("node-sass-middleware");
+const app          = express();
 
-const knexConfig  = require("./knexfile");
-const knex        = require("knex")(knexConfig[ENV]);
-const morgan      = require('morgan');
-const knexLogger  = require('knex-logger');
+const knexConfig   = require("./knexfile");
+const knex         = require("knex")(knexConfig[ENV]);
+const morgan       = require('morgan');
+const knexLogger   = require('knex-logger');
 
 // Seperated Routes for each Resource
-const usersRoutes = require("./routes/users");
+const usersRoutes  = require("./routes/users");
+const searchRoutes = require("./routes/search")
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -42,6 +43,13 @@ app.use("/api/users", usersRoutes(knex));
 app.get("/", (req, res) => {
   res.render("index");
 });
+
+// Search Route
+
+app.get("/api/search", (req, res) => {
+  var query = req.query.q;
+
+})
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
