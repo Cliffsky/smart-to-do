@@ -86,6 +86,31 @@ $(() => {
     });
   }
 
+/*
+ * Find book
+ * @param {string} search - Book to search
+ */
+
+ function findBook(search) {
+  $.ajax({
+    method: 'GET',
+    url: '/api/search/books',
+    data: {
+      search: search
+    }
+  }).done((books) => {
+    books.forEach( function (book) {
+          let row   = $('<div>');
+          let p     = $('<p>').text(book.title+", by "+book.authors[0])
+          let img   = $('<img>').attr('src',book.thumbnail);
+          p.appendTo(row);
+          img.appendTo(row);
+          console.log(row);
+          $('.panelResults').append(row);
+    });
+  });
+ }
+
   // ----------------------------------------------------------------------------
   // Search
 
@@ -94,6 +119,7 @@ $(() => {
     var search = $('.searchInput').val();
 
     findPlace(search);
+    findBook(search);
     findMovie(search);
   });
 });

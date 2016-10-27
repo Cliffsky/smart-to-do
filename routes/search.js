@@ -15,7 +15,7 @@ module.exports = (knex) => {
 
     let html;
     const searchQuery   = req.query.search;
-    const placeUrl      = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${searchQuery}&key=${GOOGLE_KEY}`;
+    const placesUrl      = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${searchQuery}&key=${GOOGLE_KEY}`;
 
     // ------------------------------------------------------------------------
     // Google Place search
@@ -24,7 +24,7 @@ module.exports = (knex) => {
     //https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAOSYpSqbAajywHPb1Pob4BXo_v2Vomw6HFdOfywm7usd9098xAKxSlrtnb5KIf-AKh0c51vRblIABK0LCpa5uIQuV7NeeAIXcuT6YHIxoSRWtdqz05XGJuOo4fJKTiHX8V4_pzj_gt1PLTcw5cT52P1frQ2Q_hz6ETHgihVDchTXEhCb29eMz8gBS4-42YbvYCF5GhSlFLB8qvvv2cyUSWSAD1NiZ8B_mw&key=AIzaSyDhSBa8z_IXeQx_jeoR26TAxWxDeK_RpNE
 
     request({
-      uri: placeUrl,
+      uri: placesUrl,
       method: "GET",
       timeout: 10000
     }, function(error, response, body) {
@@ -55,11 +55,10 @@ module.exports = (knex) => {
     let html;
 
     const searchQuery   = req.query.search;
-    const movieUrl      = `http://www.omdbapi.com/?s=${searchQuery}`;
+    const moviesUrl     = `http://www.omdbapi.com/?s=${searchQuery}`;
 
-    console.log(movieUrl);
     request({
-      uri: movieUrl,
+      uri: moviesUrl,
       method: "GET",
       timeout: 10000
     }, function(error, response, body) {
@@ -73,14 +72,33 @@ module.exports = (knex) => {
   // Products
 
   router.get("/products", (req, res) => {
-    // The call for API happens here
+    let products;
+
+    const searchQuery = req.query.search;
+    const productsUrl =
+
+
   });
 
   // --------------------------------------------------------------------------
   // Books
 
   router.get("/books", (req, res) => {
-    // The call for API happens here
+    let books=[];
+    const searchQuery = req.query.search;
+    const booksUrl = `https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&key=${GOOGLE_KEY}`
+
+    request({
+      url: booksUrl,
+      method: "GET",
+      timeout: 10000
+    }, function(err, response, body) {
+      if (err) throw new Error(err);
+      JSON.parse(response.body).items.slice(0,9).forEach((book) => {
+        books.push({title: book.volumeInfo.title, authors: book.volumeInfo.authors, pageCount: book.volumeInfo.pageCount, thumbnail: book.volumeInfo.imageLinks.thumbnail});
+      });
+      res.send(books);
+    });
   });
 
   return router;
