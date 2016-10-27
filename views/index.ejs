@@ -9,9 +9,13 @@
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/watch-api.js"></script>
   </head>
 
   <body>
-    <h1>Hello World!</h1>
+    <form action="/api/search" method="GET">
+      <input type="text" name="q">
+      <input type="submit" name="Search">
+    </form>
   </body>
 </html>
