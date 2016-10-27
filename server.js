@@ -19,7 +19,7 @@ const GOOGLE_KEY  = process.env.GOOGLE_KEY || "google_api";
 
 // Seperated Routes for each Resource
 const usersRoutes  = require("./routes/users");
-const searchRoutes = require("./routes/search")
+//const searchRoutes = require("./routes/search");
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -48,9 +48,6 @@ app.get("/", (req, res) => {
 });
 
 // Search Route
-
-app.use("/api/search", searchRoutes(knex))
-
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
