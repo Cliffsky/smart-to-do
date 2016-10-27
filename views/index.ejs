@@ -13,8 +13,7 @@
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
-    <!--<script type="text/javascript" src="/scripts/watch-api.js"></script> -->
-    <!-- <script type="text/javascript" src="/scripts/place-api.js"></script> -->
+    <script type="text/javascript" src="/scripts/search.js"></script>
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<%= GOOGLE_KEY %>&libraries=places"></script>
 
@@ -66,21 +65,25 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>Navbar example</h1>
-        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-        <p>To see the difference between static and fixed top navbars, just scroll.</p>
-        <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p>
+        <h1>Search</h1>
+
+        <form action="/api/search" method="GET" class="form" id="formSearch">
+          <div class="form-group">
+            <input type="text" name="search" class="form-control searchInput" value="Sushi">
+          </div>
+
+          <div class="form-group text-right">
+            <input type="submit" name="btnSearch" class="btn btn-lg btn-primary" value="Search">
+          </div>
+        </form>
+
+        <div class="panelResults">
+          <p>Results will show up here</p>
+        </div>
       </div>
 
+      <div id="map"></div>
     </div> <!-- /container -->
-
-
-    <form action="/api/search" method="GET">
-      <input type="text" name="q">
-      <input type="submit" name="Search">
-    </form>
 
     <div id="GOOGLE_KEY" data-key="<%= GOOGLE_KEY %>">
     <div id="list"> </div>

@@ -10,6 +10,7 @@ exports.up = function(knex, Promise) {
     table.foreign('category_id').references('categories.id')
 
     table.string('name');
+    table.text('content');
     table.integer('length');
     table.integer('order');
     table.boolean('isComplete');

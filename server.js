@@ -19,7 +19,7 @@ const GOOGLE_KEY  = process.env.GOOGLE_KEY || "google_api";
 
 // Seperated Routes for each Resource
 const usersRoutes  = require("./routes/users");
-//const searchRoutes = require("./routes/search");
+const searchRoutes = require("./routes/search");
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -41,6 +41,7 @@ app.use(express.static("public"));
 
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
+app.use("/api/search", searchRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
