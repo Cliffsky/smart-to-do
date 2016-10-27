@@ -49,10 +49,7 @@ app.get("/", (req, res) => {
 
 // Search Route
 
-app.get("/api/search", (req, res) => {
-  var query = req.query.q;
-
-})
+app.use("/api/search", searchRoutes(knex))
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
