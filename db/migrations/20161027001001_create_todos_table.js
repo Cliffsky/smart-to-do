@@ -4,10 +4,10 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable('todos', function (table) {
     table.increments();
     table.integer('user_id').unsigned()
-    table.foreign('user_id').references('Users.id')
+    table.foreign('user_id').references('users.id')
 
     table.integer('category_id').unsigned()
-    table.foreign('category_id').references('Categories.id')
+    table.foreign('category_id').references('categories.id')
 
     table.string('name');
     table.integer('length');
