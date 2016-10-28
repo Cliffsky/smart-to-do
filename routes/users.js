@@ -4,12 +4,7 @@ const express        = require('express');
 const router         = express.Router();
 
 const bcrypt         = require("bcrypt");
-// const cookieSession = require("cookie-session");
 
-// router.use(cookieSession({
-//   name: 'userId',
-//   keys: ['userId']
-// }));
 
 module.exports = (knex) => {
 
