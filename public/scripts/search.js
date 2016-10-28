@@ -78,6 +78,35 @@ $(() => {
       }
     });
   }
+
+  function findBook(search) {
+    $.ajax({
+      method: 'GET',
+      url: '/api/search/books',
+      data: {
+        search: search
+      }
+    }).done((books) => {
+      showResult(books, 3);
+    });
+  }
+
+/*
+ * Find products/local vendors
+ * @param {string} search - Product to search
+ */
+
+  function findProduct(search) {
+    $.ajax({
+      method: 'GET',
+      url: '/api/search/products',
+      data: {
+        search: search
+      }
+    }).done((products) => {
+      showResult(products,4);
+    });
+  }
   /**
    * show Results
    * @param {object}  results - Object with found things from API
@@ -109,7 +138,7 @@ $(() => {
           let img   = $('<img>').attr('src',book.thumbnail);
           p.appendTo(row);
           img.appendTo(row);
-          $('.#searchResultsContent').append(row);
+          $('#searchResultsContent').append(row);
         });
         break;
       case 4:
@@ -119,7 +148,7 @@ $(() => {
           let img   = $('<img>').attr('src',product.largeImage);
           p.appendTo(row);
           img.appendTo(row);
-          $('.#searchResultsContent').append(row);
+          $('#searchResultsContent').append(row);
         });
         break;
       default:
@@ -131,34 +160,6 @@ $(() => {
  * @param {string} search - Book to search
  */
 
-function findBook(search) {
-  $.ajax({
-    method: 'GET',
-    url: '/api/search/books',
-    data: {
-      search: search
-    }
-  }).done((books) => {
-    showResult(books, 3);
-  });
-}
-
-/*
- * Find products/local vendors
- * @param {string} search - Product to search
- */
-
-function findProduct(search) {
-  $.ajax({
-    method: 'GET',
-    url: '/api/search/products',
-    data: {
-      search: search
-    }
-  }).done((products) => {
-    showResult(products,4);
-  });
-}
 
   // ----------------------------------------------------------------------------
   // Search Action

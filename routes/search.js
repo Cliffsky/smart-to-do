@@ -115,6 +115,7 @@ module.exports = (knex) => {
       let doc = new xmlDom().parseFromString(body.substring(2, response.length));
       let xml = new xmlHelper(doc);
       let data = xml.tag('ItemSearchResponse').tag('Items').tag('Item').makeNickHappy();
+      console.log(data);
       res.send(data);
     });
   });
@@ -136,6 +137,7 @@ module.exports = (knex) => {
       JSON.parse(response.body).items.slice(0,9).forEach((book) => {
         books.push({title: book.volumeInfo.title, authors: book.volumeInfo.authors, pageCount: book.volumeInfo.pageCount, thumbnail: book.volumeInfo.imageLinks.thumbnail});
       });
+      console.log(books);
       res.send(books);
     });
   });
