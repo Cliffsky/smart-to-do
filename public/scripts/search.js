@@ -91,7 +91,7 @@ $(() => {
  * @param {string} search - Book to search
  */
 
- function findBook(search) {
+function findBook(search) {
   $.ajax({
     method: 'GET',
     url: '/api/search/books',
@@ -109,7 +109,24 @@ $(() => {
           $('.panelResults').append(row);
     });
   });
- }
+}
+
+/*
+ * Find products/local vendors
+ * @param {string} search - Product to search
+ */
+
+function findProduct(search) {
+  $.ajax({
+    method: 'GET',
+    url: '/api/search/products',
+    data: {
+      search: search
+    }
+  }).done((products) => {
+
+  })
+}
 
   // ----------------------------------------------------------------------------
   // Search
@@ -118,6 +135,7 @@ $(() => {
     e.preventDefault();
     var search = $('.searchInput').val();
 
+    findProduct(search);
     findPlace(search);
     findBook(search);
     findMovie(search);
