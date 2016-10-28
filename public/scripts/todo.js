@@ -18,8 +18,18 @@ $(() => {
           case 4: categoryClass = "buy";    break;
         }
 
+
+        // Refactor!!
+        var classComplete;
+        if (todo.isComplete) {
+          var classComplete = 'todoComplete';
+        } else {
+          var classComplete = 'todoNotComplete';
+        }
+
         // Creating elements
-        var item = $('<li>').text(todo.name).addClass('list-group-item').addClass(categoryClass).data('id', todo.id);
+        var item = $('<li>').text(todo.name).addClass('list-group-item').addClass(categoryClass).addClass(classComplete);
+
         var deleteIcon = $('<span class="badge"><i class="glyphicon glyphicon-trash"></i></span>');
         var checkmarkIcon = $('<span class="badge"><i class="glyphicon glyphicon-ok"></i></span>');
 
@@ -61,6 +71,23 @@ $(() => {
 
     })
   }
+
+  $('#showComplete').on('click', function(e) {
+    $('.todoNotComplete').css('display', 'none');
+    $('.todoComplete').css('display', 'block');
+  });
+
+  $('#showNotComplete').on('click', function(e) {
+    $('.todoNotComplete').css('display', 'block');
+    $('.todoComplete').css('display', 'none');
+  });
+
+
+  $('#showAll').on('click', function(e) {
+    $('.todoNotComplete').css('display', 'block');
+    $('.todoComplete').css('display', 'block');
+
+  });
 
   // Load the All ToDos when loading page
   loadToDos();
