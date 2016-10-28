@@ -2,24 +2,26 @@
 
 require('dotenv').config();
 
-const PORT         = process.env.PORT || 8080;
-const ENV          = process.env.ENV || "development";
-const express      = require("express");
-const bodyParser   = require("body-parser");
-const sass         = require("node-sass-middleware");
-const app          = express();
+const PORT           = process.env.PORT || 8080;
+const ENV            = process.env.ENV || "development";
+const express        = require("express");
+const bodyParser     = require("body-parser");
+const bcrypt         = require("bcrypt");
+const cookieSession = require("cookie-session");
+const sass           = require("node-sass-middleware");
+const app            = express();
 
-const knexConfig   = require("./knexfile");
-const knex         = require("knex")(knexConfig[ENV]);
-const morgan       = require('morgan');
-const knexLogger   = require('knex-logger');
+const knexConfig     = require("./knexfile");
+const knex           = require("knex")(knexConfig[ENV]);
+const morgan         = require('morgan');
+const knexLogger     = require('knex-logger');
 
 // API configuration
-const GOOGLE_KEY  = process.env.GOOGLE_KEY || "google_api";
+const GOOGLE_KEY     = process.env.GOOGLE_KEY || "google_api";
 
 // Seperated Routes for each Resource
-const usersRoutes  = require("./routes/users");
-const searchRoutes = require("./routes/search");
+const usersRoutes    = require("./routes/users");
+const searchRoutes   = require("./routes/search");
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -31,6 +33,10 @@ app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieSession({
+  name: 'userId',
+  keys: ['userId']
+}));
 app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
@@ -40,8 +46,8 @@ app.use("/styles", sass({
 app.use(express.static("public"));
 
 // Mount all resource routes
-app.use("/api/users", usersRoutes(knex));
 app.use("/api/search", searchRoutes(knex));
+app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {

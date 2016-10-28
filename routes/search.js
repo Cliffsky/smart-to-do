@@ -1,8 +1,9 @@
 "use strict";
 
-require('dotenv').config({path: '../'});
+// require('dotenv').config({path: '../'});
 const express       = require('express');
 const router        = express.Router();
+
 const request       = require('request');
 const crypto        = require('crypto');
 const xmlHelper     = require('../tools/xmlHelper')
