@@ -134,9 +134,19 @@ module.exports = (knex) => {
       timeout: 10000
     }, function(err, response, body) {
       if (err) throw new Error(err);
-      JSON.parse(response.body).items.slice(0,9).forEach((book) => {
-        books.push({title: book.volumeInfo.title, authors: book.volumeInfo.authors, pageCount: book.volumeInfo.pageCount, thumbnail: book.volumeInfo.imageLinks.thumbnail});
-      });
+      let results = JSON.parse(response.body);
+      if (results.items) {
+        let max = results.items.length <= 10 ? (results.items.length - 1) : 9;
+        results.items.slice(0, max).forEach((book) => {
+          let thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : false;
+          books.push({
+            title: book.volumeInfo.title,
+            authors: book.volumeInfo.authors,
+            pageCount: book.volumeInfo.pageCount,
+            thumbnail: thumbnail
+          });
+        });
+      }
       res.send(books);
     });
   });
