@@ -54,7 +54,7 @@ $(() => {
         search: placeId
       }
     }).done((result) => {
-      $('.panelResults').append(result);
+      showResult(result, 2);
     });
   }
 
@@ -72,27 +72,60 @@ $(() => {
     }).done((movies) => {
 
       if(movies.Response == 'True') {
-        movies.Search.forEach( function(movie) {
-          var row   = $('<div>');
-          var p     = $('<p>').text(movie.Title)
-          var img   = $('<img>').attr('src',movie.Poster);
-          p.appendTo(row);
-          img.appendTo(row);
-          $('.panelResults').append(row);
-        });
+        showResult(movies.Search, 1);
       } else {
         console.log('Movies: NOT FOUND');
       }
     });
   }
 
+  /**
+   * show Results
+   * @param {object}  results - Object with found things from API
+   * @param {integer} cateogory - Category Id
+   */
+
+  function showResult(results, category) {
+
+    switch(category) {
+
+      // To Watch category
+      case 1:
+          results.forEach( function(movie) {
+            var row   = $('<div>');
+            var p     = $('<p>').text(movie.Title)
+            var img   = $('<img>').attr('src',movie.Poster);
+            p.appendTo(row);
+            img.appendTo(row);
+            $('#searchResultsContent').append(row);
+          });
+        break;
+      case 2:
+        $('#searchResultsContent').append(results);
+        break;
+      default:
+      console.log("none!");
+    }
+  }
+
   // ----------------------------------------------------------------------------
-  // Search
+  // Search Action
+
+  $('#formSearch').find('a').on('click', function(e) {
+    $('#formSearch').submit();
+  });
+
 
   $('#formSearch').on('submit', function(e) {
     e.preventDefault();
     var search = $('.searchInput').val();
 
+    // Show modal with results
+    $('#searchResultsContent').empty();
+    $('#searchResultsTitle').text('Looking for: ' + search);
+    $('#searchResults').modal();
+
+    // Find categories
     findPlace(search);
     findMovie(search);
   });

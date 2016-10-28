@@ -5,4 +5,35 @@ body {
   h1 {
     color: #244751;
   }
+
+  section {
+    height: 100vh;
+    text-align: center;
+    padding: 35px 0;
+  }
+
+  .bg {
+      background: #eee;
+    }
+
+  .todolist {
+
+    .watch{
+      background: #d9534f;
+    }
+
+    .buy{
+      background: #5cb85c;
+    }
+
+    .read{
+      background: #428bca;
+    }
+
+    .eat{
+      background: #d3d3d3;
+    }
+  }
 }
+
+
