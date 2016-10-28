@@ -79,7 +79,7 @@ module.exports = (knex) => {
   // --------------------------------------------------------------------------
   // Set complete
 
-  router.get("/:todo_id/toogleComplete", (req, res) => {
+  router.get("/:todo_id/toggleComplete", (req, res) => {
 
     const todo_id = req.params.todo_id;
 
