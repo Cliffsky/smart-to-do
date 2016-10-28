@@ -78,7 +78,6 @@ $(() => {
       }
     });
   }
-
   /**
    * show Results
    * @param {object}  results - Object with found things from API
@@ -103,10 +102,63 @@ $(() => {
       case 2:
         $('#searchResultsContent').append(results);
         break;
+      case 3:
+        results.forEach( function (book) {
+          let row   = $('<div>');
+          let p     = $('<p>').text(book.title+", by "+book.authors[0])
+          let img   = $('<img>').attr('src',book.thumbnail);
+          p.appendTo(row);
+          img.appendTo(row);
+          $('.#searchResultsContent').append(row);
+        });
+        break;
+      case 4:
+        results.forEach( function (product) {
+          let row   = $('<div>');
+          let p     = $('<p>').text(product.title);
+          let img   = $('<img>').attr('src',product.largeImage);
+          p.appendTo(row);
+          img.appendTo(row);
+          $('.#searchResultsContent').append(row);
+        });
+        break;
       default:
       console.log("none!");
     }
   }
+/*
+ * Find book
+ * @param {string} search - Book to search
+ */
+
+function findBook(search) {
+  $.ajax({
+    method: 'GET',
+    url: '/api/search/books',
+    data: {
+      search: search
+    }
+  }).done((books) => {
+    showResult(books, 3);
+  });
+}
+
+/*
+ * Find products/local vendors
+ * @param {string} search - Product to search
+ */
+
+function findProduct(search) {
+  $.ajax({
+    method: 'GET',
+    url: '/api/search/products',
+    data: {
+      search: search
+    }
+  }).done((products) => {
+    showResult(products,4);
+  });
+}
 
   // ----------------------------------------------------------------------------
   // Search Action
@@ -126,7 +178,9 @@ $(() => {
     $('#searchResults').modal();
 
     // Find categories
+    findProduct(search);
     findPlace(search);
+    findBook(search);
     findMovie(search);
   });
 });
