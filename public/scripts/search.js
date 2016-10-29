@@ -53,8 +53,9 @@ $(() => {
       data: {
         search: placeId
       }
-    }).done((result) => {
-      showResult(result, 2);
+    }).done((places) => {
+      console.log(places);
+      showResult(places);
     });
   }
 
@@ -70,12 +71,8 @@ $(() => {
         search: search
       }
     }).done((movies) => {
+        showResult(movies);
 
-      if(movies.Response == 'True') {
-        showResult(movies.Search, 1);
-      } else {
-        console.log('Movies: NOT FOUND');
-      }
     });
   }
 
@@ -87,7 +84,7 @@ $(() => {
         search: search
       }
     }).done((books) => {
-      showResult(books, 3);
+      showResult(books);
     });
   }
 
@@ -104,7 +101,7 @@ $(() => {
         search: search
       }
     }).done((products) => {
-      showResult(products,4);
+      showResult(products);
     });
   }
   /**
@@ -113,47 +110,17 @@ $(() => {
    * @param {integer} cateogory - Category Id
    */
 
-  function showResult(results, category) {
+  function showResult(data) {
 
-    switch(category) {
+    data.forEach( function(item) {
+      var row   = $('<div>');
+      var p     = $('<p>').text(item.name)
+      var img   = $('<img>').attr('src',item.img);
+      p.appendTo(row);
+      img.appendTo(row);
+      $('#searchResultsContent').append(row);
+    });
 
-      // To Watch category
-      case 1:
-          results.forEach( function(movie) {
-            var row   = $('<div>');
-            var p     = $('<p>').text(movie.Title)
-            var img   = $('<img>').attr('src',movie.Poster);
-            p.appendTo(row);
-            img.appendTo(row);
-            $('#searchResultsContent').append(row);
-          });
-        break;
-      case 2:
-        $('#searchResultsContent').append(results);
-        break;
-      case 3:
-        results.forEach( function (book) {
-          let row   = $('<div>');
-          let p     = $('<p>').text(book.title+", by "+book.authors[0])
-          let img   = $('<img>').attr('src',book.thumbnail);
-          p.appendTo(row);
-          img.appendTo(row);
-          $('#searchResultsContent').append(row);
-        });
-        break;
-      case 4:
-        results.forEach( function (product) {
-          let row   = $('<div>');
-          let p     = $('<p>').text(product.title);
-          let img   = $('<img>').attr('src',product.largeImage);
-          p.appendTo(row);
-          img.appendTo(row);
-          $('#searchResultsContent').append(row);
-        });
-        break;
-      default:
-      console.log("none!");
-    }
   }
 /*
  * Find book

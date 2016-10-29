@@ -20,8 +20,10 @@ unfuckXmlDoc.prototype.makeNickHappy = function(){
   return this.nodes.map((node) => {
     var badIdea = new unfuckXmlDoc(node);
     var ans = {};
-    ans.title = badIdea.tag('Title').text()[0];
-    ans.largeImage = badIdea.tag('LargeImage').tag('URL').text()[0];
+    ans.name = badIdea.tag('Title').text()[0];
+    ans.id = badIdea.tag('ASIN').text()[0];
+    ans.img = badIdea.tag('LargeImage').tag('URL').text()[0];
+    ans.category = 4;
     return ans;
   })
 }
