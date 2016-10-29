@@ -57,6 +57,11 @@ app.get("/", (req, res) => {
   res.render("index", { GOOGLE_KEY });
 });
 
+// Register page
+app.get("/register", (req, res) => {
+  res.render("register");
+})
+
 // Search Route
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);

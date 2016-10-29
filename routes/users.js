@@ -18,14 +18,18 @@ module.exports = (knex) => {
       .from("users")
       .where('name', req.body.username)
       .then((results) => {
-      bcrypt.compare(req.body.password, results[0].password_digest, function (err, response) {
-        if (response) {
-          req.session.user_id = results[0].name;
-          res.send();
+        if (results.length > 0) {
+          bcrypt.compare(req.body.password, results[0].password_digest, function (err, response) {
+            if (response) {
+              req.session.user_id = results[0].name;
+              res.send();
+            } else {
+              res.send("Invalid user credentials.");
+            }
+          });
         } else {
           res.send("Invalid user credentials.");
         }
-      });
     });
   });
 
@@ -54,7 +58,7 @@ module.exports = (knex) => {
                 }).then(function (result) {
                   if(result.rowCount === '1') {
                     req.session.user_id = user;
-                    res.send();
+                    res.redirect("../../");
                   }
                 }).catch((err) => console.log(err));
               });

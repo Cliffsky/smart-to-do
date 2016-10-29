@@ -14,7 +14,7 @@ module.exports = (knex) => {
     knex
       .select("*")
       .from("todos")
-      .where({user_id: user_id})
+      .where({user_id: req.session.user_id})
       .then((results) => {
         res.json(results);
     });
@@ -31,7 +31,7 @@ module.exports = (knex) => {
       .select("*")
       .from("todos")
       .where({
-        id: user_id,
+        id: req.session.user_id,
         category_id: category_id
       })
       .then((results) => {
@@ -50,14 +50,14 @@ module.exports = (knex) => {
     // Select the max value of order then insert todo
     knex('todos')
     .max('order')
-    .where({user_id: user_id,})
+    .where({user_id: req.session.user_id,})
     .then((results) => {
       todo.nextOrder = results[0].max + 1;
 
       // Insert todo
       knex('todos')
         .insert({
-          user_id: user_id,
+          user_id: req.session.user_id,
           category_id: todo.category_id,
           name: todo.name,
           content: todo.content,
@@ -89,7 +89,7 @@ module.exports = (knex) => {
       .where(
         {
           id: todo_id,
-          user_id: user_id,
+          user_id: req.session.user_id,
         })
       .then((results) => {
         let currentStatus = Boolean(results[0].isComplete);
@@ -99,7 +99,7 @@ module.exports = (knex) => {
         .where(
           {
             id: todo_id,
-            user_id: user_id,
+            user_id: req.session.user_id,
           })
         .update({isComplete: !currentStatus})
         .then((results) => {
@@ -121,7 +121,7 @@ module.exports = (knex) => {
     .where(
       {
         id: todo_id,
-        user_id: user_id,
+        user_id: req.session.user_id,
       })
     .delete()
     .then((results) => {
