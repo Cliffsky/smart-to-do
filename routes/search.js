@@ -39,18 +39,21 @@ module.exports = (knex) => {
       if(error) throw new Error(error);
 
       const place  = JSON.parse(body).result;
+      let str  = `${place.name} (${place.formatted_address})`;
 
-      // Creating HTML for a place
-      html  = '<p> ' + place.name + ' </p>';
-      html += '<p> ' + place.formatted_address +' </p>';
-      html += '<p> ' + place.formatted_phone_number +' </p>';
+      let data = [{
+        name: str,
+        id: false,
+        img: false,
+        category: 2
+      }];
 
-      res.send(html);
+      res.json(data);
     });
   });
 
   // --------------------------------------------------------------------------
-  // --------------------------------------------------------------------------
+  // Find One
   // --------------------------------------------------------------------------
 
 
@@ -58,6 +61,9 @@ module.exports = (knex) => {
 
   // --------------------------------------------------------------------------
   // Movies
+  // --------------------------------------------------------------------------
+  // Find All
+  // --------------------------------------------------------------------------
 
   router.get("/movies", (req, res) => {
     let html;
@@ -71,13 +77,33 @@ module.exports = (knex) => {
       timeout: 10000
     }, function(error, response, body) {
       if(error) throw new Error(error);
-
-      res.json(JSON.parse(body));
+      var data = [];
+      if (JSON.parse(body).Search) {
+        data = JSON.parse(body).Search.map((element) => {
+          return { name: element.Title + ' (' + element.Year + ')',
+                   id: element.imdbID,
+                   img: element.Poster,
+                   category: 1
+                 };
+        });
+      }
+      res.send(data);
     });
   });
 
   // --------------------------------------------------------------------------
+  // Find One
+  // --------------------------------------------------------------------------
+
+  router.get("/movies/:id", (req, res) => {
+
+  });
+
+  // --------------------------------------------------------------------------
   // Products
+  // --------------------------------------------------------------------------
+  // Find Many
+  // --------------------------------------------------------------------------
 
   router.get("/products", (req, res) => {
     let products;
@@ -116,12 +142,17 @@ module.exports = (knex) => {
       let doc = new xmlDom().parseFromString(body.substring(2, response.length));
       let xml = new xmlHelper(doc);
       let data = xml.tag('ItemSearchResponse').tag('Items').tag('Item').makeNickHappy();
-      res.send(data);
+      res.json(data);
     });
   });
 
   // --------------------------------------------------------------------------
+
+  // --------------------------------------------------------------------------
   // Books
+  // --------------------------------------------------------------------------
+  // Find Many
+  // --------------------------------------------------------------------------
 
   router.get("/books", (req, res) => {
     let books=[];
@@ -135,21 +166,28 @@ module.exports = (knex) => {
     }, function(err, response, body) {
       if (err) throw new Error(err);
       let results = JSON.parse(response.body);
+      let data = [];
       if (results.items) {
         let max = results.items.length <= 10 ? (results.items.length - 1) : 9;
-        results.items.slice(0, max).forEach((book) => {
+        data = results.items.slice(0, max).map((book) => {
           let thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : false;
-          books.push({
-            title: book.volumeInfo.title,
-            authors: book.volumeInfo.authors,
-            pageCount: book.volumeInfo.pageCount,
-            thumbnail: thumbnail
-          });
+          return  {
+                    name: book.volumeInfo.title + ' by ' + book.volumeInfo.authors[0],
+                    id: book.id,
+                    img: thumbnail,
+                    category: 3
+                  };
         });
       }
-      res.send(books);
+      res.json(data);
     });
   });
+
+  // ------------------------------------------------------------------------
+  // Books
+  // -------------------------------------------------------------------------
+  // Find One
+  // -------------------------------------------------------------------------
 
   return router;
 }
