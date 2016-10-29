@@ -54,7 +54,6 @@ $(() => {
         search: placeId
       }
     }).done((places) => {
-      console.log(places);
       showResult(places);
     });
   }
@@ -113,12 +112,28 @@ $(() => {
   function showResult(data) {
 
     data.forEach( function(item) {
-      var row   = $('<div>');
-      var p     = $('<p>').text(item.name)
+      // create carousel item
+      var el    = $('<div>').addClass('item');
+      var a     = $('<a>').addClass('thumbnail').attr('data-name', item.name);
+      a.attr('data-category', item.category);
+
       var img   = $('<img>').attr('src',item.img);
-      p.appendTo(row);
-      img.appendTo(row);
-      $('#searchResultsContent').append(row);
+      el.append(a);
+      a.append(img);
+
+      var carouselId;
+
+      switch(item.category) {
+        case 1: carouselId = 'watchCarousel'; break;
+        case 2: carouselId = 'eatCarousel'; break;
+        case 3: carouselId = 'readCarousel'; break;
+        case 4: carouselId = 'buyCarousel'; break;
+      }
+
+
+      $('#' + carouselId + ' > .carousel-inner').append(el);
+      $('#' + carouselId + ' > .carousel-inner > div').first().addClass('active');
+      $('#' + carouselId).carousel();
     });
 
   }
@@ -140,22 +155,37 @@ $(() => {
     e.preventDefault();
     var search = $('.searchInput').val();
 
+    // Clear
+    $('.carousel-inner').empty();
+
     // Show modal with results
-    //$('#searchResultsContent').empty();
     $('#searchResultsTitle').text('Looking for: ' + search);
     $('#searchResults').modal();
 
     // Find categories
-    //findProduct(search);
-    //findPlace(search);
-    //findBook(search);
-    //findMovie(search);
+    findMovie(search);
+     findPlace(search);
+     findProduct(search);
+     findBook(search);
+
   });
 
-  $('#searchResults').modal();
+  $('.carousel-inner').parent().find('button').on('click', function() {
+    var todo = {};
+    category_id = $(this).parent().find('.active > a').attr('data-category');
+    todo.name   = $(this).parent().find('.active > a').attr('data-name')
 
+    $.ajax({
+      method: 'POST',
+      url: '/api/todos',
+      data: {
+        category_id: category_id,
+        name: todo.name
+      }
+    }).done((response) => {
+      console.log(response);
+    });
 
-  $('#watchCarousel > a').on('click', function(e) {
-    console.log( $('#watchCarousel .active > a').data('title')  );
   });
+
 });

@@ -84,34 +84,35 @@
 
 
     <!-- Modal -->
+    <!-- ITEM EXAMPLE
+      <div class="item active">
+        <a href="#" class="thumbnail" data-name="Some title">
+          <img src="https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg">
+        </a>
+      </div>
+    -->
+
     <div class="modal fade" id="searchResults" tabindex="-1" role="dialog" aria-labelledby="searchResultsTitle">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="searchResultsTitle">Modal title</h4>
+            <h4 class="modal-title" id="searchResultsTitle">...</h4>
           </div>
+
           <div class="modal-body" id="searchResultsContent">
 
 
+            <!--
+            // ================================================================
+            // Watch Carousel
+            -->
             <div class="col-xs-6 col-md-3">
+              <h4>To watch</h4>
               <div id="watchCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 
                 <!-- Wrapper for slides -->
-                <div class="carousel-inner" role="listbox">
-                  <div class="item active">
-                    <a href="#" class="thumbnail" data-title="Some title">
-                      <img src="https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg">
-                    </a>
-                  </div>
-
-                  <div class="item">
-                    <a href="#" class="thumbnail">
-                      <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQucenUDrukuw_xMdJEYKhO8KHP-ZGzZqIwOYAWp6_NcMOO3bOF3g" alt="Flower">
-                    </a>
-                  </div>
-
-                </div>
+                <div class="carousel-inner" role="listbox"> </div>
                 <!-- Left and right controls -->
                 <a class="left carousel-control" href="#watchCarousel" role="button" data-slide="prev">
                   <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -122,11 +123,85 @@
                   <span class="sr-only">Next</span>
                 </a>
 
-                <a href="#" role="button" class="btn btn-primary"> add </a>
+                <button class="btn btn-primary"> Add </button>
               </div>
-
-
             </div>
+
+            <!--
+            // ================================================================
+            // Eat Carousel
+            -->
+
+            <div class="col-xs-6 col-md-3">
+              <h4>To eat</h4>
+              <div id="eatCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox"> </div>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#eatCarousel" role="button" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#eatCarousel" role="button" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+
+                <button class="btn btn-primary"> Add </button>
+              </div>
+            </div>
+
+            <!--
+            // ================================================================
+            // Read Carousel
+            -->
+
+            <div class="col-xs-6 col-md-3">
+              <h4>To Read</h4>
+              <div id="readCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox"> </div>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#readCarousel" role="button" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#readCarousel" role="button" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+
+                <button class="btn btn-primary"> Add </button>
+              </div>
+            </div>
+
+            <!--
+            // ================================================================
+            // Buy Carousel
+            -->
+
+            <div class="col-xs-6 col-md-3">
+              <h4>To Buy</h4>
+              <div id="buyCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox"> </div>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#buyCarousel" role="button" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#buyCarousel" role="button" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+
+                <button class="btn btn-primary"> Add </button>
+              </div>
+            </div>
+
 
 
           </div> <!-- End body-->

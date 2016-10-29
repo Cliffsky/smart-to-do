@@ -18,28 +18,35 @@ $(() => {
           case 4: categoryClass = "buy";    break;
         }
 
-
         // Refactor!!
-        var classComplete;
-        if (todo.isComplete) {
-          var classComplete = 'todoComplete';
-        } else {
-          var classComplete = 'todoNotComplete';
-        }
+        var classComplete = todo.isComplete ? 'todoComplete' : 'todoNotComplete';
 
         // Creating elements
         var item = $('<li>').text(todo.name).addClass('list-group-item').addClass(categoryClass).addClass(classComplete);
-
         var deleteIcon = $('<span class="badge"><i class="glyphicon glyphicon-trash"></i></span>');
         var checkmarkIcon = $('<span class="badge"><i class="glyphicon glyphicon-ok"></i></span>');
 
         // Bind onClick event
         $(deleteIcon).on('click', function() {
-          deleteToDo(todo.id, item);
+          if( confirm('Are you sure?')){
+            deleteToDo(todo.id, item);
+          }
         });
 
         $(checkmarkIcon).on('click', function() {
           toggleComplete(todo.id);
+          var notComplete = $(this).parent().hasClass('todoNotComplete');
+
+          if(notComplete) {
+            $(this).parent().addClass('todoComplete')
+            $(this).parent().removeClass('todoNotComplete')
+          } else {
+            $(this).parent().removeClass('todoComplete')
+            $(this).parent().addClass('todoNotComplete')
+          }
+
+          // Show again to-dos
+          $('#showNotComplete').click();
         })
 
         // Putting elements togheter

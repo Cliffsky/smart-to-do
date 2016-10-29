@@ -46,7 +46,6 @@ module.exports = (knex) => {
 
     const today = new Date().toJSON().slice(0,10);
     const todo = req.body;
-    todo.order = 99;
 
     // Select the max value of order then insert todo
     knex('todos')
