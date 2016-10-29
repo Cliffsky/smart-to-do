@@ -53,6 +53,8 @@ module.exports = (knex) => {
   });
 
   // --------------------------------------------------------------------------
+  // Places
+  // --------------------------------------------------------------------------
   // Find One
   // --------------------------------------------------------------------------
 
@@ -92,11 +94,33 @@ module.exports = (knex) => {
   });
 
   // --------------------------------------------------------------------------
+  // Movies
+  // --------------------------------------------------------------------------
   // Find One
   // --------------------------------------------------------------------------
 
   router.get("/movies/:id", (req, res) => {
+    const moviesUrl = `http://www.omdbapi.com/?i=${req.params.id}`;
 
+    request({
+      uri: moviesUrl,
+      method: "GET",
+      timeout: 10000
+    }, function(error, response, body) {
+      let movie = JSON.parse(body);
+      let data = {
+        name: movie.Title,
+        id: movie.imdbID,
+        img: movie.Poster,
+        year: movie.Year,
+        length: movie.Runtime,
+        dir: movie.Director,
+        genre: movie.Genre,
+        desc: movie.Plot,
+        category: 1
+      };
+      res.send(data);
+    });
   });
 
   // --------------------------------------------------------------------------
@@ -141,12 +165,57 @@ module.exports = (knex) => {
       if (err) throw new Error(err);
       let doc = new xmlDom().parseFromString(body.substring(2, response.length));
       let xml = new xmlHelper(doc);
-      let data = xml.tag('ItemSearchResponse').tag('Items').tag('Item').makeNickHappy();
+      let data = xml.tag('ItemSearchResponse').tag('Items').tag('Item').findMany();
       res.json(data);
     });
   });
 
   // --------------------------------------------------------------------------
+  // Products
+  // --------------------------------------------------------------------------
+  // Fine one
+  // --------------------------------------------------------------------------
+
+  router.get("/products/:id", (req, res) => {
+    let products;
+
+    let endpoint = "webservices.amazon.com";
+    let uri = "/onca/xml";
+
+    let amazon_crazy_params = {
+        "Service" : "AWSECommerceService",
+        "Operation" : "ItemSearch",
+        "AWSAccessKeyId" : AMAZON_KEY_ID,
+        "AssociateTag" : ASSOCIATE_ID,
+        "SearchIndex" : "All",
+        "Keywords" : req.params.id,
+        "ResponseGroup" : "Images,ItemAttributes,Offers",
+        "Timestamp": (new Date()).toISOString()
+    };
+
+    let sortedKeys = Object.keys(amazon_crazy_params).sort();
+
+    let queryString = sortedKeys.map((key) =>
+      encodeURIComponent(key)+"="+encodeURIComponent(amazon_crazy_params[key])
+    ).join('&');
+
+    let sign_me = ['GET', endpoint, uri, queryString].join('\n');
+
+    let signed_sealed_escaped = encodeURIComponent(crypto.createHmac('SHA256', AMAZON_KEY).update(sign_me).digest('base64'));
+    let request_url = `http://${endpoint}${uri}?${queryString}&Signature=${signed_sealed_escaped}`;
+
+    request({
+      url: request_url,
+      method: "GET",
+      timeout: 10000
+    }, function (err, response, body) {
+      if (err) throw new Error(err);
+      let doc = new xmlDom().parseFromString(body.substring(2, response.length));
+      let xml = new xmlHelper(doc);
+      let data = xml.tag('ItemSearchResponse').tag('Items').tag('Item').findOne();
+      res.json(data[0]);
+    });
+  });
 
   // --------------------------------------------------------------------------
   // Books
@@ -173,7 +242,7 @@ module.exports = (knex) => {
           let thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : false;
           return  {
                     name: book.volumeInfo.title + ' by ' + book.volumeInfo.authors[0],
-                    id: book.id,
+                    id: book.volumeInfo.industryIdentifiers[0].identifier,
                     img: thumbnail,
                     category: 3
                   };
@@ -189,6 +258,34 @@ module.exports = (knex) => {
   // Find One
   // -------------------------------------------------------------------------
 
+  router.get("/books/:id", (req, res) => {
+    const booksUrl = `https://www.googleapis.com/books/v1/volumes?q=${req.params.id}&key=${GOOGLE_KEY}`
+
+    request({
+      url: booksUrl,
+      method: "GET",
+      timeout: 10000
+    }, function(err, response, body) {
+      if (err) throw new Error(err);
+      let results = JSON.parse(response.body);
+      let data;
+      if (results.items) {
+        let book = results.items[0].volumeInfo
+        let thumbnail = book.imageLinks ? book.imageLinks.thumbnail : false;
+        data = {
+          name : book.title,
+          authors : book.authors,
+          id : book.industryIdentifiers[0].identifier,
+          img : thumbnail,
+          length: Math.round(book.pageCount * 1.2),
+          pagecount : book.pageCount,
+          publisher : book.publisher,
+          description : book.description
+        }
+      }
+      res.json(data);
+    });
+  });
   return router;
 }
 
