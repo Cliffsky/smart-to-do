@@ -174,14 +174,21 @@ $(() => {
     var search = $('.searchInput').val();
 
     // Show modal with results
-    $('#searchResultsContent').empty();
+    //$('#searchResultsContent').empty();
     $('#searchResultsTitle').text('Looking for: ' + search);
     $('#searchResults').modal();
 
     // Find categories
-    findProduct(search);
-    findPlace(search);
-    findBook(search);
-    findMovie(search);
+    //findProduct(search);
+    //findPlace(search);
+    //findBook(search);
+    //findMovie(search);
+  });
+
+  $('#searchResults').modal();
+
+
+  $('#watchCarousel > a').on('click', function(e) {
+    console.log( $('#watchCarousel .active > a').data('title')  );
   });
 });
