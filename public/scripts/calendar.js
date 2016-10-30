@@ -36,7 +36,6 @@ const We = 360
 
 function calendarHelper (eventsArray) {
   var date = new Date (eventsArray.sort((a, b) => (new Date(a.starting_at).getTime() - new Date(b.starting_at).getTime()))[0].starting_at);
-  console.log(date);
   var timeLeft = (date.getDay() === 0 || date.getDay() === 6) ? We : Wd; // Initialize leisure time.
   var category_id = [false, false, false, false]; // Array to check if you've done one of a category_idegory in a day;
   var events = []; // Initialize output array.
