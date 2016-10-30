@@ -35,9 +35,9 @@ module.exports = (knex) => {
 
 // Logout
 
-  router.delete("/login", (req, res) => {
+  router.get("/logout", (req, res) => {
     req.session.user_id = "";
-    res.send();
+    res.redirect("/login");
   })
 
 // Register

@@ -58,10 +58,10 @@ $( function() {
 
   $("#sign-out").on('click', function (e) {
     $.ajax({
-      method:'DELETE',
-      url: 'api/users/login',
+      method:'GET',
+      url: 'api/users/logout',
     }).done((response) => {
-      response.redirect("/");
+      console.log(response);
     });
   });
 
