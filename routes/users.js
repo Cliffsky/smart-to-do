@@ -21,7 +21,7 @@ module.exports = (knex) => {
         if (results.length > 0) {
           bcrypt.compare(req.body.password, results[0].password_digest, function (err, response) {
             if (response) {
-              req.session.user_id = results[0].name;
+              req.session.user_id = results[0].id;
               res.send();
             } else {
               res.send("Invalid user credentials.");
@@ -57,8 +57,7 @@ module.exports = (knex) => {
                   password_digest: hash
                 }).then(function (result) {
                   if(result.rowCount === '1') {
-                    req.session.user_id = user;
-                    res.redirect("../../");
+                    res.redirect("/../..")
                   }
                 }).catch((err) => console.log(err));
               });
