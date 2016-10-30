@@ -129,6 +129,30 @@ $(function () {
     });
   }
 
+  /**
+   * Add a todo into list
+   * @param {object} todo - toDo paramters
+   */
+
+  function addTodo(todo) {
+    $.ajax({
+      method: 'POST',
+      url: '/api/todos',
+      data: {
+        category_id: todo.category_id,
+        name: todo.name
+      }
+    }).done((response) => {
+      if (response.rowCount) {
+        flashMessage('#modalflashMessage', 'Item added to list', true);
+        //refresh toDos after inserting
+        loadToDos();
+      } else {
+        flashMessage('#modalflashMessage', 'Occurred an error while adding Item to list, try again later ', false);
+      }
+    });
+  }
+
   // --------------------------------------------------------------------------
   // Filtering todos by isComplete
 
@@ -143,9 +167,28 @@ $(function () {
     $(show).show();
     //
     countToDos(show);
+  });
+
+  // --------------------------------------------------------------------------
+  // Add toDo inside modal
+
+  $('.carousel-inner').parent().find('button').on('click', function() {
+    var todo = {};
+    todo.category_id  = $(this).parent().find('.active > a').attr('data-category');
+    todo.name         = $(this).parent().find('.active > a').attr('data-name')
+    addTodo(todo);
+  });
+
+  $('#customList').find('button').on('click', function(elem) {
+    var todo = {};
+    todo.name         = $('.searchInput').val();
+    todo.category_id  = $(elem.target).parent().find('select').val();
+    addTodo(todo);
   })
 
   // --------------------------------------------------------------------------
   // When DOM Ready
   loadToDos();
+
+  $('#searchResults').modal();
 });

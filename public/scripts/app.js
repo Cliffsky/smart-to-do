@@ -4,19 +4,19 @@
  * @param {boolean} success - In error show a red background otherwise green
  */
 
-function flashMessage(msg, success) {
+function flashMessage(selector, msg, success) {
   // Change style depding on result
   if (success) {
-    $("#flashMessage").addClass("alert-success");
-    $("#flashMessage").removeClass("alert-danger");
+    $(selector).addClass("alert-success");
+    $(selector).removeClass("alert-danger");
   } else {
-    $("#flashMessage").addClass("alert-danger");
-    $("#flashMessage").removeClass("alert-success");
+    $(selector).addClass("alert-danger");
+    $(selector).removeClass("alert-success");
   }
 
   // Show message
-  $("#flashMessage").show().delay(1500).fadeOut(500);;
-  $("#flashMessage").text(msg);
+  $(selector).show().delay(1500).fadeOut(500);;
+  $(selector).text(msg);
 }
 
 $( function() {
