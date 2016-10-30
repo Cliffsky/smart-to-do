@@ -38,8 +38,13 @@ module.exports = (knex) => {
       const place  = JSON.parse(body).result;
 
       // Request first place photo to google
-      const photo_reference = place.photos[0].photo_reference;
-      const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=120&photoreference=${photo_reference}&key=${GOOGLE_KEY}`;
+      let photoUrl;
+      if (place.photos) {
+        const photo_reference = place.photos[0].photo_reference;
+        photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=120&photoreference=${photo_reference}&key=${GOOGLE_KEY}`;
+      } else {
+        photoUrl = 'http://epicaestate.com/includes/tng/styles/img_not_found.gif';
+      }
 
       let str  = `${place.name} (${place.formatted_address})`;
 

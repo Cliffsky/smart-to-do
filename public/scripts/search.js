@@ -16,6 +16,10 @@ $(() => {
   function runAfterRequest(success) {
     success ? requestsSuccess++ : requestsReturned++;
 
+    if (requestsReturned === 4) {
+      isLoading('#searchSpinning', false);
+    }
+
     if ((requestsReturned === 4) && (requestsSuccess === 0)) {
       $('#customList').show();
     }
@@ -217,7 +221,7 @@ $(() => {
     // Show modal with results
     $('#searchResultsTitle').text('Looking for: ' + search);
     $('#searchResults').modal();
-
+    isLoading('#searchSpinning', true);
 
     // Reset search
     $('#customList').hide();

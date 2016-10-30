@@ -10,20 +10,6 @@ $(function () {
   }
 
   /**
-   * Toggle spinning gif
-   * @param {boolean} visible - Show/Hide spinning gif.
-   */
-  function isLoading(visible) {
-
-    if(visible) {
-      $('#toDoList > img').show();
-      $('#toDoList').find('li').remove();
-    } else {
-      $('#toDoList > img').hide();
-    }
-  }
-
-  /**
    * Toggles 'true'/'false' status for toDo in database
    */
   function toggleComplete (id, elem) {
@@ -72,15 +58,17 @@ $(function () {
   function loadToDos() {
 
     // show loading page
-    isLoading(true);
+    isLoading('#toDoList', true);
 
     $.ajax({
       method: 'GET',
       url: '/api/todos'
     }).done( function(todos) {
 
+      $('#toDoList').empty();
+
       // hide loading page
-      isLoading(false);
+      isLoading('#toDoList', false);
 
       todos.forEach( function(todo){
         var categoryClass;
