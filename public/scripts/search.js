@@ -19,8 +19,7 @@ $(() => {
     if ((requestsReturned === 4) && (requestsSuccess === 0)) {
       $('#customList').show();
     }
-
-    console.log('Total:',requestsReturned, 'Success:', requestsSuccess);
+    //console.log('Total:',requestsReturned, 'Success:', requestsSuccess);
   }
 
   /**
