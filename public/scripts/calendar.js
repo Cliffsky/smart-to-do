@@ -1,14 +1,14 @@
-$(function(){
-
   // --------------------------------------------------------------------------
   // Load objects into calendar.
 
 
 function populateCalendar() {
+  console.log('Called!!')
   $.ajax({
     method: 'GET',
     url: '/api/todos'
   }).done( function (todos) {
+
     $('#calendar').fullCalendar({
       header: {
         left: 'prev,next today',
@@ -24,8 +24,6 @@ function populateCalendar() {
   });
 }
 
-populateCalendar();
-
 const Ea = 120;
 const Bu = 20;
 const Wt = 0;
@@ -35,6 +33,7 @@ const We = 360
 
 
 function calendarHelper (eventsArray) {
+  if (eventsArray.length === 0) { return; }
   var date = new Date (eventsArray.sort((a, b) => (new Date(a.starting_at).getTime() - new Date(b.starting_at).getTime()))[0].starting_at);
   console.log(date);
   var timeLeft = (date.getDay() === 0 || date.getDay() === 6) ? We : Wd; // Initialize leisure time.
@@ -111,5 +110,3 @@ function incrementDate(date) {
 function cleanUpCalendar(eventsArray) {
 
 }
-
-});
