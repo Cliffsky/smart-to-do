@@ -97,18 +97,13 @@ module.exports = (knex) => {
         }, function(error, response, body) {
           let movie = JSON.parse(body);
           details = {
-            name: movie.Title,
-            id: movie.imdbID,
+            name: movie.Title + ' (' + movie.Year + ')',
             img: movie.Poster,
-            year: movie.Year,
             length: Number(movie.Runtime.substring(0,3)),
-            dir: movie.Director,
-            genre: movie.Genre,
-            desc: movie.Plot,
             category: 1
           };
           data.push(details);
-          if(i === 9) {
+          if(i === 4) {
           res.send(data);
           }
         });

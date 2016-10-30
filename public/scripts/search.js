@@ -111,14 +111,12 @@ $(() => {
    */
 
   function showResult(data) {
-    console.log(data);
 
     data.forEach( function(item) {
       // create carousel item
       var el    = $('<div>').addClass('item');
       var a     = $('<a>').addClass('thumbnail').attr('data-name', item.name);
       a.attr('data-category', item.category);
-      console.log(item.length);
       a.attr('data-length', item.length);
 
       var img   = $('<img>').attr('src',item.img);

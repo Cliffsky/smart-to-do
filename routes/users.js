@@ -65,7 +65,6 @@ module.exports = (knex) => {
               res.status('400');
             }
           } else {
-            console.log(results);
             res.status(400);
             res.send("Invalid request. Name registered to another user.");
           }
