@@ -12,26 +12,18 @@ body {
     padding: 35px 0;
   }
 
-  .bg {
-      background: #eee;
-    }
+  .complete {
+    text-decoration: line-through;
+  }
+  #todoControl {
+    padding-bottom: 10px;
+    border-bottom: 2px solid #000;
+  }
 
-  .todolist {
-
-    .watch{
-      background: #d9534f;
-    }
-
-    .buy{
-      background: #5cb85c;
-    }
-
-    .read{
-      background: #428bca;
-    }
-
-    .eat{
-      background: #d3d3d3;
+  #toDoList {
+    img {
+      display: block;
+      margin: 0 auto;
     }
   }
 }
@@ -62,8 +54,5 @@ body {
 }
 
 
-/*
-* Override some bootstrap styles!
-**/
 
 

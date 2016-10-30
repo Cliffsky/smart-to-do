@@ -243,9 +243,17 @@ module.exports = (knex) => {
           let author = book.volumeInfo.authors ? book.volumeInfo.authors[0] : "";
           let isbn = book.volumeInfo.industryIdentifiers ? book.volumeInfo.industryIdentifiers[0].identifier : false;
           let thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : false;
+          let title = book.volumeInfo.title ? book.volumeInfo.title : false
+          let author = book.volumeInfo.authors ? book.volumeInfo.authors[0] : false;
+          let id = book.volumeInfo.industryIdentifiers[0].identifier ? book.volumeInfo.industryIdentifiers[0].identifier : false;
           return  {
+<<<<<<< HEAD
                     name: book.volumeInfo.title + ' by ' + author,
                     id: isbn,
+=======
+                    name:  title + ' by ' + author,
+                    id: id,
+>>>>>>> 0b1f7fdc8b2330f82b302a7033b2f593e25cfc1d
                     img: thumbnail,
                     category: 3
                   };
