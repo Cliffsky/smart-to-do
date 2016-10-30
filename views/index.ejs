@@ -47,26 +47,27 @@
             <li class="active"><a href="#">Home</a></li>
           </ul>
         </div><!--/.nav-collapse -->
-
-
-
       </div>
     </nav>
 
     <div class="container">
+
+      <div id="flashMessage" class="alert"> <!-- Alert message--> </div>
+
       <div class="row">
         <div class="col-md-12">
-
           <div class="todolist">
             <h1>My ToDo List</h1>
-            <div>
-              <button id="showAll"> All </button>
-              <button id="showNotComplete"> To do </button>
-              <button id="showComplete"> Done </button>
+            <div id="todoControl">
+              <a class="btn btn-primary label-default" data-show=".notComplete, .complete"> All </a>
+              <a class="btn btn-primary" data-show=".notComplete" data-hide=".complete"> To do </a>
+              <a class="btn btn-primary" data-show=".complete" data-hide=".notComplete"> Done </a>
+              <span class="badge"> ... </span>
             </div>
 
             <ul id="toDoList" class="list-group">
               <!--ToDo list items goes here-->
+              <img src="/img/loading.gif"/>
             </ul>
           </div>
         </div>
@@ -101,8 +102,7 @@
           </div>
 
           <div class="modal-body" id="searchResultsContent">
-
-
+            <div class="row">
             <!--
             // ================================================================
             // Watch Carousel
@@ -202,7 +202,9 @@
               </div>
             </div>
 
+            </div>
 
+          <div class="clear-fix"></div>
 
           </div> <!-- End body-->
 

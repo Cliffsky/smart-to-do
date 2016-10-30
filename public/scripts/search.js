@@ -103,6 +103,7 @@ $(() => {
       showResult(products);
     });
   }
+
   /**
    * show Results
    * @param {object}  results - Object with found things from API
@@ -118,8 +119,10 @@ $(() => {
       a.attr('data-category', item.category);
 
       var img   = $('<img>').attr('src',item.img);
+      var p     = $('<p>').text(item.name);
       el.append(a);
       a.append(img);
+      el.append(p);
 
       var carouselId;
 
@@ -137,17 +140,21 @@ $(() => {
     });
 
   }
-/*
- * Find book
- * @param {string} search - Book to search
- */
-
+  /*
+   * Find book
+   * @param {string} search - Book to search
+   */
 
   // ----------------------------------------------------------------------------
   // Search Action
 
   $('#formSearch').find('a').on('click', function(e) {
-    $('#formSearch').submit();
+    var search = $('#formSearch').find('input').val();
+    if (search == "") {
+      flashMessage('The search can\'t be empty', false)
+    } else {
+      $('#formSearch').submit();
+    }
   });
 
 
@@ -188,4 +195,6 @@ $(() => {
 
   });
 
+
+//$('#searchResults').modal();
 });
