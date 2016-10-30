@@ -99,6 +99,7 @@ $(function () {
         var deleteIcon = $('<span class="badge"><i class="glyphicon glyphicon-trash"></i></span></span>');
 
         var item  = $('<li>').text(todo.order + '. ' + todo.name);
+        item.attr('data-id', todo.id);
         item.addClass('list-group-item');
         item.addClass(categoryClass);
         item.addClass(classIsComplete);

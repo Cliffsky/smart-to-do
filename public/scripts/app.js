@@ -21,6 +21,16 @@ function flashMessage(selector, msg, success) {
 
 $( function() {
 
+  $( "#toDoList" ).sortable({
+  update: function(e, ui) {
+    console.log($("#toDoList").sortable("toArray", {attribute: 'data-id'}));
+  }
+  });
+
+
+
+
+
   // Load Calendar
   $('#calendar').fullCalendar({
       header: {
