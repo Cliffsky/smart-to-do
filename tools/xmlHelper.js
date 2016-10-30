@@ -34,6 +34,7 @@ unfuckXmlDoc.prototype.findOne = function(){
     var ans = {};
     ans.name = badIdea.tag('Title').text()[0];
     ans.id = badIdea.tag('ASIN').text()[0];
+    ans.length = 20;
     ans.img = badIdea.tag('LargeImage').tag('URL').text()[0];
     ans.price = badIdea.tag('ItemAttributes').tag('ListPrice').tag('FormattedPrice').text()[0];
     ans.label = badIdea.tag('ItemAttributes').tag('Label').text()[0];

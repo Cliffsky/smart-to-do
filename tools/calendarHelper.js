@@ -1,4 +1,4 @@
-toDoList = [
+var toDoList = [
   {
     name: 'Terminator 2',
     priority: 1,
@@ -85,6 +85,7 @@ const Rd = 60
 const Wd = 180
 const We = 360
 
+
 function populateCalendar (eventsArray) {
   var date = new Date(); // Gets today's date.
   var timeLeft = (date.getDay() === 0 || date.getDay() === 6) ? We : Wd; // Initialize leisure time.
@@ -128,8 +129,23 @@ function populateCalendar (eventsArray) {
   return events;
 }
 
+console.log(populateCalendar(toDoList));
+
 function insertToDo (eventsArray, date, toDo) {
-  eventsArray.push( { title: toDo.name, start: date, category: toDo.cat } )
+  switch(toDo.cat) {
+    case 1:
+      eventsArray.push( { title: toDo.name, start: date.toISOString().substring(0, 10), color: '#d9534f' } )
+      break;
+    case 2:
+      eventsArray.push( { title: toDo.name, start: date.toISOString().substring(0, 10), color: '#428bca' } )
+      break;
+    case 3:
+      eventsArray.push( { title: toDo.name, start: date.toISOString().substring(0, 10), color: '#428bca' } )
+      break;
+    case 4:
+      eventsArray.push( { title: toDo.name, start: date.toISOString().substring(0, 10), color: '#d3d3d3' } )
+      break;
+  }
 }
 
 function removeFromList (eventsArray, index) {
