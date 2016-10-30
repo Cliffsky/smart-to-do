@@ -56,7 +56,13 @@ $(() => {
 
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       $('#eatCarousel').parent().show();
-      placeDetail(results[0].place_id);
+
+      var max = results.length > 5 ? 5 : results.length;
+
+      for (var i = 0; i < max; i++) {
+        placeDetail(results[i].place_id);
+      }
+
       runAfterRequest(true);
     } else if (status == 'ZERO_RESULTS') {
       $('#eatCarousel').parent().hide();

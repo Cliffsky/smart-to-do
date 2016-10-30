@@ -28,9 +28,6 @@ module.exports = (knex) => {
     // ------------------------------------------------------------------------
     // Google Place search
 
-    // Image URL
-    //https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAOSYpSqbAajywHPb1Pob4BXo_v2Vomw6HFdOfywm7usd9098xAKxSlrtnb5KIf-AKh0c51vRblIABK0LCpa5uIQuV7NeeAIXcuT6YHIxoSRWtdqz05XGJuOo4fJKTiHX8V4_pzj_gt1PLTcw5cT52P1frQ2Q_hz6ETHgihVDchTXEhCb29eMz8gBS4-42YbvYCF5GhSlFLB8qvvv2cyUSWSAD1NiZ8B_mw&key=AIzaSyDhSBa8z_IXeQx_jeoR26TAxWxDeK_RpNE
-
     request({
       uri: placesUrl,
       method: "GET",
@@ -39,12 +36,17 @@ module.exports = (knex) => {
       if(error) throw new Error(error);
 
       const place  = JSON.parse(body).result;
+
+      // Request first place photo to google
+      const photo_reference = place.photos[0].photo_reference;
+      const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=120&photoreference=${photo_reference}&key=${GOOGLE_KEY}`;
+
       let str  = `${place.name} (${place.formatted_address})`;
 
       let data = [{
         name: str,
         id: false,
-        img: false,
+        img: photoUrl,
         length: '120',
         category: 2
       }];
