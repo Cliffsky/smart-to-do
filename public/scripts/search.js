@@ -111,12 +111,15 @@ $(() => {
    */
 
   function showResult(data) {
+    console.log(data);
 
     data.forEach( function(item) {
       // create carousel item
       var el    = $('<div>').addClass('item');
       var a     = $('<a>').addClass('thumbnail').attr('data-name', item.name);
       a.attr('data-category', item.category);
+      console.log(item.length);
+      a.attr('data-length', item.length);
 
       var img   = $('<img>').attr('src',item.img);
       var p     = $('<p>').text(item.name);
@@ -180,17 +183,17 @@ $(() => {
   $('.carousel-inner').parent().find('button').on('click', function() {
     var todo = {};
     category_id = $(this).parent().find('.active > a').attr('data-category');
-    todo.name   = $(this).parent().find('.active > a').attr('data-name')
-
+    todo.name   = $(this).parent().find('.active > a').attr('data-name');
+    todo.length = $(this).parent().find('.active > a').attr('data-length');
     $.ajax({
       method: 'POST',
       url: '/api/todos',
       data: {
         category_id: category_id,
-        name: todo.name
+        name: todo.name,
+        length: todo.length
       }
     }).done((response) => {
-      console.log(response);
     });
 
   });

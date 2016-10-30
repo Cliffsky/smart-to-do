@@ -45,7 +45,7 @@ module.exports = (knex) => {
         name: str,
         id: false,
         img: false,
-        length: 120,
+        length: '120',
         category: 2
       }];
 
@@ -73,6 +73,7 @@ module.exports = (knex) => {
 
     const searchQuery   = req.query.search;
     const moviesUrl     = `http://www.omdbapi.com/?s=${searchQuery}`;
+    var data =[];
 
     request({
       uri: moviesUrl,
@@ -80,17 +81,38 @@ module.exports = (knex) => {
       timeout: 10000
     }, function(error, response, body) {
       if(error) throw new Error(error);
-      var data = [];
+      var ids = [];
       if (JSON.parse(body).Search) {
-        data = JSON.parse(body).Search.map((element) => {
-          return { name: element.Title + ' (' + element.Year + ')',
-                   id: element.imdbID,
-                   img: element.Poster,
-                   category: 1
-                 };
+        ids = JSON.parse(body).Search.map((element) => {
+          return element.imdbID;
         });
       }
-      res.send(data);
+      let i = 0;
+      let details = {};
+      ids.forEach((e, i) => {
+        request({
+          uri: `http://www.omdbapi.com/?i=${e}`,
+          method: "GET",
+          timeout: 2000
+        }, function(error, response, body) {
+          let movie = JSON.parse(body);
+          details = {
+            name: movie.Title,
+            id: movie.imdbID,
+            img: movie.Poster,
+            year: movie.Year,
+            length: Number(movie.Runtime.substring(0,3)),
+            dir: movie.Director,
+            genre: movie.Genre,
+            desc: movie.Plot,
+            category: 1
+          };
+          data.push(details);
+          if(i === 9) {
+          res.send(data);
+          }
+        });
+      });
     });
   });
 
@@ -240,21 +262,15 @@ module.exports = (knex) => {
       if (results.items) {
         let max = results.items.length <= 10 ? (results.items.length - 1) : 9;
         data = results.items.slice(0, max).map((book) => {
-          let author = book.volumeInfo.authors ? book.volumeInfo.authors[0] : "";
-          let isbn = book.volumeInfo.industryIdentifiers ? book.volumeInfo.industryIdentifiers[0].identifier : false;
           let thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : false;
           let title = book.volumeInfo.title ? book.volumeInfo.title : false
           let author = book.volumeInfo.authors ? book.volumeInfo.authors[0] : false;
-          let id = book.volumeInfo.industryIdentifiers[0].identifier ? book.volumeInfo.industryIdentifiers[0].identifier : false;
+          let id = book.volumeInfo.industryIdentifiers ? book.volumeInfo.industryIdentifiers[0].identifier : false;
           return  {
-<<<<<<< HEAD
-                    name: book.volumeInfo.title + ' by ' + author,
-                    id: isbn,
-=======
                     name:  title + ' by ' + author,
                     id: id,
->>>>>>> 0b1f7fdc8b2330f82b302a7033b2f593e25cfc1d
                     img: thumbnail,
+                    length: `${Math.round(Number(book.volumeInfo.pageCount * 1.2))}`,
                     category: 3
                   };
         });
@@ -288,7 +304,7 @@ module.exports = (knex) => {
           authors : book.authors,
           id : book.industryIdentifiers[0].identifier,
           img : thumbnail,
-          length: Math.round(book.pageCount * 1.2),
+          length: `${Math.round(book.pageCount * 1.2)}`,
           pagecount : book.pageCount,
           publisher : book.publisher,
           description : book.description

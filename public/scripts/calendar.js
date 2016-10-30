@@ -8,8 +8,8 @@ function populateCalendar() {
     method: 'GET',
     url: '/api/todos'
   }).done( function (todos) {
-      calendarHelper(todos);
-      console.log(calendarHelper(todos));
+      let events = calendarHelper(todos);
+      console.log(events);
   })
 }
 
@@ -56,6 +56,7 @@ function calendarHelper (eventsArray) {
           break;
         }
       }
+  console.log("Reached")
     }
     date = incrementDate(date);
     cat = cat.map(function (e) {

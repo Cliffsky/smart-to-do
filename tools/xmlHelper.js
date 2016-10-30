@@ -24,6 +24,7 @@ unfuckXmlDoc.prototype.findMany = function(){
     ans.id = badIdea.tag('ASIN').text()[0];
     ans.img = badIdea.tag('LargeImage').tag('URL').text()[0];
     ans.category = 4;
+    ans.length = 20;
     return ans;
   })
 }
