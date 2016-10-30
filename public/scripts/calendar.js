@@ -3,6 +3,9 @@ $(function(){
   // --------------------------------------------------------------------------
   // Load objects into calendar.
 
+var today = new Date();
+today = setDate()
+
 function populateCalendar() {
   $.ajax({
     method: 'GET',
@@ -14,7 +17,7 @@ function populateCalendar() {
         center: 'title',
         right: 'month,agendaWeek,agendaDay,listWeek'
       },
-      defaultDate: (new Date()).toISOString().substring(0, 10),
+      defaultDate: today,
       navLinks: true, // can click day/week names to navigate views
       editable: true,
       eventLimit: true, // allow "more" link when too many events
