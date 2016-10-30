@@ -164,6 +164,7 @@ $(() => {
       var a     = $('<a>').addClass('thumbnail').attr('data-name', item.name);
       a.attr('data-category', item.category);
       a.attr('data-length', item.length);
+      a.attr('data-id', item.id);
 
       var img   = $('<img>').attr('src',item.img);
       var p     = $('<p>').text(item.name);

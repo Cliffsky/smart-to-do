@@ -22,7 +22,7 @@ module.exports = (knex) => {
           bcrypt.compare(req.body.password, results[0].password_digest, function (err, response) {
             if (response) {
               req.session.user_id = results[0].id;
-              res.send();
+              res.redirect("../../");
             } else {
               res.send("Invalid user credentials.");
             }

@@ -2,6 +2,7 @@
 
 const express = require('express');
 const router  = express.Router();
+const request = require('request');
 
 module.exports = (knex) => {
 
@@ -43,37 +44,74 @@ module.exports = (knex) => {
   // --------------------------------------------------------------------------
   // Create todo
 
-  router.post("/", (req, res) => {
+router.post("/", (req, res) => {
 
     const today = new Date().toJSON().slice(0,10);
     const todo = req.body;
+    console.log(todo);
+    if (todo.category_id === '1') {
+      request({
+        uri: `http://www.omdbapi.com/?i=${todo.id}`,
+        method: "GET",
+        timeout: 10000
+      }, function(error, response, body) {
+        let movie = JSON.parse(body);
+        console.log(body);
+        todo.length = movie.Runtime.substring(0,3);
+        knex('todos')
+        .max('order')
+        .where({user_id: req.session.user_id,})
+        .then((results) => {
+          todo.nextOrder = results[0].max + 1;
 
-    // Select the max value of order then insert todo
-    knex('todos')
-    .max('order')
-    .where({user_id: req.session.user_id,})
-    .then((results) => {
-      todo.nextOrder = results[0].max + 1;
+          // Insert todo
+          knex('todos')
+            .insert({
+              user_id: req.session.user_id,
+              category_id: todo.category_id,
+              name: todo.name,
+              content: todo.content,
+              length: todo.length,
+              order: todo.nextOrder,
+              isComplete: false,
+              starting_at: today,
+              created_at: today
+            })
+            .then((results) => {
+              res.json(results);
+            })
+            .catch((err)=> res.json(err));
+          })
+        .catch((err)=> res.json(err));
+      });
+    } else {
+      knex('todos')
+        .max('order')
+        .where({user_id: req.session.user_id,})
+        .then((results) => {
+          todo.nextOrder = results[0].max + 1;
 
       // Insert todo
-      knex('todos')
-        .insert({
-          user_id: req.session.user_id,
-          category_id: todo.category_id,
-          name: todo.name,
-          content: todo.content,
-          length: todo.length,
-          order: todo.nextOrder,
-          isComplete: false,
-          starting_at: today,
-          created_at: today
-        })
-        .then((results) => {
-          res.json(results);
-        })
+          knex('todos')
+            .insert({
+              user_id: req.session.user_id,
+              category_id: todo.category_id,
+              name: todo.name,
+              content: todo.content,
+              length: todo.length,
+              order: todo.nextOrder,
+              isComplete: false,
+              starting_at: today,
+              created_at: today
+            })
+            .then((results) => {
+              res.json(results);
+            })
+            .catch((err)=> res.json(err));
+          })
         .catch((err)=> res.json(err));
-      })
-    .catch((err)=> res.json(err));
+
+    }
   });
 
   // --------------------------------------------------------------------------

@@ -33,4 +33,13 @@ $( function() {
   }
   });
 
+  $("#sign-out").on('click', function (e) {
+    $.ajax({
+      method:'DELETE',
+      url: 'api/users/login',
+    }).done((response) => {
+      response.redirect("/");
+    });
+  });
+
 });

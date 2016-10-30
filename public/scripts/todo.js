@@ -142,6 +142,7 @@ $(function () {
       data: {
         category_id: todo.category_id,
         name: todo.name,
+        id: todo.id,
         length: todo.length
       }
     }).done((response) => {
@@ -178,6 +179,7 @@ $(function () {
     var todo = {};
     todo.category_id  = $(this).parent().find('.active > a').attr('data-category');
     todo.name         = $(this).parent().find('.active > a').attr('data-name');
+    todo.id           = $(this).parent().find('.active > a').attr('data-id');
     todo.length       = $(this).parent().find('.active > a').attr('data-length');
     addTodo(todo);
   });

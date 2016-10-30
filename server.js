@@ -2,7 +2,7 @@
 
 require('dotenv').config();
 
-const PORT           = process.env.PORT || 8080;
+const PORT           = process.env.PORT || 3000;
 const ENV            = process.env.ENV || "development";
 const express        = require("express");
 const bodyParser     = require("body-parser");
@@ -54,12 +54,20 @@ app.use("/api/todos", todosRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("index", { GOOGLE_KEY });
+  if (req.session.user_id) {
+    res.render("index", { GOOGLE_KEY });
+  } else {
+    res.redirect("/login");
+  }
 });
 
 // Register page
 app.get("/register", (req, res) => {
   res.render("register");
+})
+
+app.get("/login", (req, res) => {
+  res.render("login");
 })
 
 // Search Route
