@@ -45,6 +45,7 @@ module.exports = (knex) => {
         name: str,
         id: false,
         img: false,
+        length: 120,
         category: 2
       }];
 
@@ -239,10 +240,12 @@ module.exports = (knex) => {
       if (results.items) {
         let max = results.items.length <= 10 ? (results.items.length - 1) : 9;
         data = results.items.slice(0, max).map((book) => {
+          let author = book.volumeInfo.authors ? book.volumeInfo.authors[0] : "";
+          let isbn = book.volumeInfo.industryIdentifiers ? book.volumeInfo.industryIdentifiers[0].identifier : false;
           let thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : false;
           return  {
-                    name: book.volumeInfo.title + ' by ' + book.volumeInfo.authors[0],
-                    id: book.volumeInfo.industryIdentifiers[0].identifier,
+                    name: book.volumeInfo.title + ' by ' + author,
+                    id: isbn,
                     img: thumbnail,
                     category: 3
                   };
