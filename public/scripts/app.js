@@ -15,6 +15,25 @@ function flashMessage(selector, msg, success) {
   $(selector).text(msg);
 }
 
+$( function() {
+
+  $( "#toDoList" ).sortable({
+  update: function(e, ui) {
+
+    var data = $("#toDoList").sortable("toArray", {attribute: 'data-id'});
+
+    $.ajax({
+      method: 'POST',
+      url: '/api/todos/reorder',
+      data: {
+        ids: data
+      }
+    }).done((response) => {
+      console.log(response);
+    });
+  }
+  });
+
   // Load Calendar
   $('#calendar').fullCalendar({
       header: {
