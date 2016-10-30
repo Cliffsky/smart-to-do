@@ -1,4 +1,3 @@
-$(() => {
 
 function flashMessage(selector, msg, success) {
   // Change style depding on result

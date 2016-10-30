@@ -152,7 +152,7 @@ module.exports = (knex) => {
           })
         .update({order: order})
         .then((results) => {
-          res.json(results);
+          //res.json(results);
         })
         .catch((err)=> res.json(err));
       }
