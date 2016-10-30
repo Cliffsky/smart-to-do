@@ -83,16 +83,16 @@ function calendarHelper (eventsArray) {
 function insertToDo (eventsArray, date, toDo) {
   switch(toDo.category_id) {
     case 1:
-      eventsArray.push( { title: toDo.name, start: date.toISOString().substring(0, 10), color: '#d9534f' } )
+      eventsArray.push( { title: toDo.name, start: date.toISOString().substring(0, 10), color: '#f28c8c' } )
       break;
     case 2:
-      eventsArray.push( { title: toDo.name, start: date.toISOString().substring(0, 10), color: '#428bca' } )
+      eventsArray.push( { title: toDo.name, start: date.toISOString().substring(0, 10), color: '#71bde2' } )
       break;
     case 3:
-      eventsArray.push( { title: toDo.name, start: date.toISOString().substring(0, 10), color: '#428bca' } )
+      eventsArray.push( { title: toDo.name, start: date.toISOString().substring(0, 10), color: '#88e263' } )
       break;
     case 4:
-      eventsArray.push( { title: toDo.name, start: date.toISOString().substring(0, 10), color: '#d3d3d3' } )
+      eventsArray.push( { title: toDo.name, start: date.toISOString().substring(0, 10), color: '#e8cd43' } )
       break;
   }
 }

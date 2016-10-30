@@ -1,3 +1,5 @@
+"use strict";
+
 function unfuckXmlDoc(xmlDoc){
   this.nodes = [xmlDoc];
 }
