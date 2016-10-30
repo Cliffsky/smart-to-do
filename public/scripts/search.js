@@ -1,8 +1,26 @@
 $(() => {
 
+  // google variables
   var map;
   var service;
   var infowindow;
+
+  // Keep Track on number of requests GLOBAL
+  var requestsReturned  = 0;
+  var requestsSuccess   = 0;
+
+  /**
+   * Function to keep track of numbers requests
+   * @param {success} boolean - if requested was succesful
+   */
+  function runAfterRequest(success) {
+    success ? requestsSuccess++ : requestsReturned++;
+
+    if ((requestsReturned === 4) && (requestsSuccess === 0)) {
+      $('#customList').show();
+    }
+    //console.log('Total:',requestsReturned, 'Success:', requestsSuccess);
+  }
 
   /**
    * Find all places arround a coordinate using google
@@ -34,10 +52,14 @@ $(() => {
    */
   function callback(results, status) {
 
+    runAfterRequest();
+
     if (status == google.maps.places.PlacesServiceStatus.OK) {
+      $('#eatCarousel').parent().show();
       placeDetail(results[0].place_id);
+      runAfterRequest(true);
     } else if (status == 'ZERO_RESULTS') {
-      console.log('Places: NOT FOUND');
+      $('#eatCarousel').parent().hide();
     }
   }
 
@@ -70,11 +92,22 @@ $(() => {
         search: search
       }
     }).done((movies) => {
-        showResult(movies);
+      runAfterRequest();
 
+      if (movies.length) {
+        showResult(movies);
+        $('#watchCarousel').parent().show();
+        runAfterRequest(true);
+      } else {
+        $('#watchCarousel').parent().hide();
+      }
     });
   }
 
+  /**
+   * Find book
+   * @param {string} search - Book to search
+   */
   function findBook(search) {
     $.ajax({
       method: 'GET',
@@ -83,7 +116,14 @@ $(() => {
         search: search
       }
     }).done((books) => {
-      showResult(books);
+      runAfterRequest();
+      if (books.length) {
+        showResult(books);
+        $('#readCarousel').parent().show();
+        runAfterRequest(true);
+      } else {
+        $('#readCarousel').parent().hide();
+      }
     });
   }
 
@@ -100,14 +140,20 @@ $(() => {
         search: search
       }
     }).done((products) => {
-      showResult(products);
+      runAfterRequest();
+      if (products.length) {
+        showResult(products);
+        $('#buyCarousel').parent().show();
+        runAfterRequest(true);
+      } else {
+        $('#buyCarousel').parent().hide();
+      }
     });
   }
 
   /**
    * show Results
    * @param {object}  results - Object with found things from API
-   * @param {integer} cateogory - Category Id
    */
 
   function showResult(data) {
@@ -122,8 +168,8 @@ $(() => {
       var img   = $('<img>').attr('src',item.img);
       var p     = $('<p>').text(item.name);
       el.append(a);
-      a.append(img);
       el.append(p);
+      a.append(img);
 
       var carouselId;
 
@@ -134,25 +180,20 @@ $(() => {
         case 4: carouselId = 'buyCarousel'; break;
       }
 
-
       $('#' + carouselId + ' > .carousel-inner').append(el);
       $('#' + carouselId + ' > .carousel-inner > div').first().addClass('active');
       $('#' + carouselId).carousel();
     });
 
   }
-  /*
-   * Find book
-   * @param {string} search - Book to search
-   */
 
-  // ----------------------------------------------------------------------------
-  // Search Action
+  // --------------------------------------------------------------------------
+  // Search Action - by button and form submit
 
   $('#formSearch').find('a').on('click', function(e) {
     var search = $('#formSearch').find('input').val();
     if (search == "") {
-      flashMessage('The search can\'t be empty', false)
+      flashMessage('#bodyflashMessage', 'The search can\'t be empty', false);
     } else {
       $('#formSearch').submit();
     }
@@ -163,39 +204,28 @@ $(() => {
     e.preventDefault();
     var search = $('.searchInput').val();
 
-    // Clear
+    // Clear carousel
     $('.carousel-inner').empty();
 
     // Show modal with results
     $('#searchResultsTitle').text('Looking for: ' + search);
     $('#searchResults').modal();
 
+
+    // Reset search
+    $('#customList').hide();
+    $('#eatCarousel').parent().hide();
+    $('#watchCarousel').parent().hide();
+    $('#readCarousel').parent().hide();
+    $('#buyCarousel').parent().hide();
+
+    requestsReturned  = 0;
+    requestsSuccess   = 0;
+
     // Find categories
     findMovie(search);
-     findPlace(search);
-     findProduct(search);
-     findBook(search);
-
+    findPlace(search);
+    findProduct(search);
+    findBook(search);
   });
-
-  $('.carousel-inner').parent().find('button').on('click', function() {
-    var todo = {};
-    category_id = $(this).parent().find('.active > a').attr('data-category');
-    todo.name   = $(this).parent().find('.active > a').attr('data-name');
-    todo.length = $(this).parent().find('.active > a').attr('data-length');
-    $.ajax({
-      method: 'POST',
-      url: '/api/todos',
-      data: {
-        category_id: category_id,
-        name: todo.name,
-        length: todo.length
-      }
-    }).done((response) => {
-    });
-
-  });
-
-
-//$('#searchResults').modal();
 });

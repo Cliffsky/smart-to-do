@@ -1,0 +1,4 @@
+bugs:
+
+- movies sometimes don't show up
+- pagecount sometimes isn't listed
