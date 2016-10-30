@@ -80,36 +80,23 @@ module.exports = (knex) => {
       method: "GET",
       timeout: 10000
     }, function(error, response, body) {
-      if(error) throw new Error(error);
-      var ids = [];
-      if (JSON.parse(body).Search) {
-        ids = JSON.parse(body).Search.map((element) => {
-          return element.imdbID;
-        });
+      if(error) {
+        res.json('');
+        return;
       }
-      let i = 0;
-      let details = {};
-      ids.forEach((e, i) => {
-        request({
-          uri: `http://www.omdbapi.com/?i=${e}`,
-          method: "GET",
-          timeout: 2000
-        }, function(error, response, body) {
-          let movie = JSON.parse(body);
-          details = {
-            name: movie.Title + ' (' + movie.Year + ')',
-            img: movie.Poster,
-            length: Number(movie.Runtime.substring(0,3)),
-            category: 1
-          };
-          data.push(details);
-          if(i === 4) {
-          res.send(data);
-          }
-        });
-      });
-    });
+      var data = [];
+      if (JSON.parse(body).Search) {
+        data = JSON.parse(body).Search.map((element) => {
+          return { name: element.Title + ' (' + element.Year + ')',
+                   id: element.imdbID,
+                   img: element.Poster,
+                   category: 1
+                 };
+               });
+      }
+      res.send(data);
   });
+});
 
   // --------------------------------------------------------------------------
   // Movies
