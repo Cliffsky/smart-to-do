@@ -48,7 +48,7 @@ $(function () {
       method: 'DELETE',
       url: '/api/todos/'+id
     }).done( function (result) {
-      //
+
     });
   }
 
@@ -65,7 +65,11 @@ $(function () {
       url: '/api/todos'
     }).done( function(todos) {
 
+      // Empty list before loading again
       $('#toDoList').empty();
+
+      // As soon the list is done, populate calendar
+      populateCalendar();
 
       // hide loading page
       isLoading('#toDoList', false);
@@ -136,8 +140,8 @@ $(function () {
     }).done((response) => {
       if (response.rowCount) {
         flashMessage('#modalflashMessage', 'Item added to list', true);
-        //refresh toDos after inserting
         loadToDos();
+        populateCalendar();
       } else {
         flashMessage('#modalflashMessage', 'Occurred an error while adding Item to list, try again later ', false);
       }
