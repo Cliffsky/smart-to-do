@@ -23,7 +23,18 @@ $( function() {
 
   $( "#toDoList" ).sortable({
   update: function(e, ui) {
-    console.log($("#toDoList").sortable("toArray", {attribute: 'data-id'}));
+
+    var data = $("#toDoList").sortable("toArray", {attribute: 'data-id'});
+
+    $.ajax({
+      method: 'POST',
+      url: '/api/todos/reorder',
+      data: {
+        ids: data
+      }
+    }).done((response) => {
+      console.log(response);
+    });
   }
   });
 

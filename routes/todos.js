@@ -15,6 +15,7 @@ module.exports = (knex) => {
       .select("*")
       .from("todos")
       .where({user_id: req.session.user_id})
+      .orderBy('order', 'asc')
       .then((results) => {
         res.json(results);
     });
@@ -129,6 +130,36 @@ module.exports = (knex) => {
     })
     .catch((err)=> res.json(err));
   });
+
+  // --------------------------------------------------------------------------
+  // Re-order todos
+
+  router.post("/reorder", (req, res) => {
+
+    const newOrder = req.body.ids;
+    let a = newOrder.toString().split(',');
+
+
+    let updateQuery = '';
+    a.forEach( (todo_id, order) => {
+      if(todo_id) {
+
+        knex('todos')
+        .where(
+          {
+            id: todo_id,
+            user_id: req.session.user_id,
+          })
+        .update({order: order})
+        .then((results) => {
+          res.json(results);
+        })
+        .catch((err)=> res.json(err));
+      }
+    });
+
+  });
+
 
 
   /*

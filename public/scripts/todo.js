@@ -98,7 +98,7 @@ $(function () {
         var checkmarkIcon = $('<span class="badge"><i class="glyphicon glyphicon-' + iconIsComplete + '"></i></span>');
         var deleteIcon = $('<span class="badge"><i class="glyphicon glyphicon-trash"></i></span></span>');
 
-        var item  = $('<li>').text(todo.order + '. ' + todo.name);
+        var item  = $('<li>').text(todo.name);
         item.attr('data-id', todo.id);
         item.addClass('list-group-item');
         item.addClass(categoryClass);
