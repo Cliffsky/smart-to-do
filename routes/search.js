@@ -240,9 +240,12 @@ module.exports = (knex) => {
         let max = results.items.length <= 10 ? (results.items.length - 1) : 9;
         data = results.items.slice(0, max).map((book) => {
           let thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : false;
+          let title = book.volumeInfo.title ? book.volumeInfo.title : false
+          let author = book.volumeInfo.authors ? book.volumeInfo.authors[0] : false;
+          let id = book.volumeInfo.industryIdentifiers[0].identifier ? book.volumeInfo.industryIdentifiers[0].identifier : false;
           return  {
-                    name: book.volumeInfo.title + ' by ' + book.volumeInfo.authors[0],
-                    id: book.volumeInfo.industryIdentifiers[0].identifier,
+                    name:  title + ' by ' + author,
+                    id: id,
                     img: thumbnail,
                     category: 3
                   };

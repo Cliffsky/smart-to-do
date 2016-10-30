@@ -1,4 +1,25 @@
-$(() => {
+/**
+ * Flash a error or success message
+ * @param {string} msg - Message to dipslay on
+ * @param {boolean} success - In error show a red background otherwise green
+ */
+
+function flashMessage(msg, success) {
+  // Change style depding on result
+  if (success) {
+    $("#flashMessage").addClass("alert-success");
+    $("#flashMessage").removeClass("alert-danger");
+  } else {
+    $("#flashMessage").addClass("alert-danger");
+    $("#flashMessage").removeClass("alert-success");
+  }
+
+  // Show message
+  $("#flashMessage").show().delay(1500).fadeOut(500);;
+  $("#flashMessage").text(msg);
+}
+
+$( function() {
 
   // Load Calendar
   $('#calendar').fullCalendar({
@@ -35,14 +56,6 @@ $(() => {
         }
       ]
     });
-
-  // //jQuery for page scrolling feature - requires jQuery Easing plugin
-  // $('a.page-scroll').on('click', function(event) {
-  //     var $anchor = $(this);
-  //     $('html, body').stop().animate({
-  //         scrollTop: $($anchor.attr('href')).offset().top
-  //     }, 1500, 'easeInOutExpo');
-  //     event.preventDefault();
-  // });
-
 });
+
+
