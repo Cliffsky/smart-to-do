@@ -33,6 +33,4 @@ $( function() {
   }
   });
 
-  // Load Calendar
-
 });
