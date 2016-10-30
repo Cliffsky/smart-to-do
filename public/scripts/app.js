@@ -15,8 +15,6 @@ function flashMessage(selector, msg, success) {
   $(selector).text(msg);
 }
 
-$( function() {
-
   // Load Calendar
   $('#calendar').fullCalendar({
       header: {

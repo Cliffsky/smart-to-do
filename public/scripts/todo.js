@@ -140,7 +140,8 @@ $(function () {
       url: '/api/todos',
       data: {
         category_id: todo.category_id,
-        name: todo.name
+        name: todo.name,
+        length: todo.length
       }
     }).done((response) => {
       if (response.rowCount) {
@@ -175,7 +176,8 @@ $(function () {
   $('.carousel-inner').parent().find('button').on('click', function() {
     var todo = {};
     todo.category_id  = $(this).parent().find('.active > a').attr('data-category');
-    todo.name         = $(this).parent().find('.active > a').attr('data-name')
+    todo.name         = $(this).parent().find('.active > a').attr('data-name');
+    todo.length       = $(this).parent().find('.active > a').attr('data-length');
     addTodo(todo);
   });
 
@@ -183,6 +185,7 @@ $(function () {
     var todo = {};
     todo.name         = $('.searchInput').val();
     todo.category_id  = $(elem.target).parent().find('select').val();
+    todo.length       = 20;
     addTodo(todo);
   })
 
