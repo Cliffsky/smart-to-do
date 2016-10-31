@@ -50,6 +50,7 @@ $(function () {
     }).done( function (result) {
 
     });
+    repopulateCalendar();
   }
 
   /**
@@ -142,6 +143,7 @@ $(function () {
         flashMessage('#modalflashMessage', 'Item added to list', true);
         loadToDos();
         populateCalendar();
+        repopulateCalendar();
       } else {
         flashMessage('#modalflashMessage', 'Occurred an error while adding Item to list, try again later ', false);
       }
@@ -162,6 +164,7 @@ $(function () {
     $(show).show();
     //
     countToDos(show);
+    repopulateCalendar();
   });
 
   // --------------------------------------------------------------------------

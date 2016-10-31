@@ -3,7 +3,6 @@
 
 
 function populateCalendar() {
-  console.log('Called!!')
   $.ajax({
     method: 'GET',
     url: '/api/todos'
@@ -22,6 +21,19 @@ function populateCalendar() {
       events: calendarHelper(todos)
     });
   });
+}
+
+function repopulateCalendar () {
+   $.ajax({
+    method: 'GET',
+    url: '/api/todos'
+  }).done( function (todos) {
+
+  $('#calendar').fullCalendar( 'removeEvents');
+  $('#calendar').fullCalendar( 'addEventSource', calendarHelper(todos) );
+  $('#calendar').fullCalendar( 'rerenderEvents');
+
+ });
 }
 
 const Ea = 120;
@@ -103,8 +115,4 @@ function incrementDate(date) {
   var dateValue = tomorrow.getDate() + 1;
   tomorrow.setDate(dateValue);
   return tomorrow;
-}
-
-function cleanUpCalendar(eventsArray) {
-
 }
