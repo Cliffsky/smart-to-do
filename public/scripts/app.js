@@ -43,7 +43,7 @@ $( function() {
   update: function(e, ui) {
 
     var data = $("#toDoList").sortable("toArray", {attribute: 'data-id'});
-
+    repopulateCalendar();
     $.ajax({
       method: 'POST',
       url: '/api/todos/reorder',
@@ -52,9 +52,13 @@ $( function() {
       }
     }).done((response) => {
       console.log(response);
-      repopulateCalendar();
+
     });
   }
+  });
+
+  $("#toDoList").on('click',function(e) {
+    repopulateCalendar();
   });
 
   $("#sign-out").on('click', function (e) {
