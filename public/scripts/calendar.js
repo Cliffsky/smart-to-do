@@ -27,10 +27,9 @@ function populateCalendar() {
 const Ea = 120;
 const Bu = 20;
 const Wt = 0;
-const Rd = 60
-const Wd = 180
-const We = 360
-
+const Rd = 60;
+const Wd = 180;
+const We = 360;
 
 function calendarHelper (eventsArray) {
   if (eventsArray.length === 0) { return; }
@@ -38,7 +37,7 @@ function calendarHelper (eventsArray) {
   var timeLeft = (date.getDay() === 0 || date.getDay() === 6) ? We : Wd; // Initialize leisure time.
   var category_id = [false, false, false, false]; // Array to check if you've done one of a category_idegory in a day;
   var events = []; // Initialize output array.
-  var toDos = eventsArray.sort((a, b) => a.priority - b.priority); // Sort input array by order of priority.
+  var toDos = eventsArray.sort((a, b) => a.order - b.order); // Sort input array by order of priority.
   while (toDos.length > 0) {
     for (var i = 0; i < toDos.length; i += 1) {
       // if (new Date(toDos[i].starting_at) <= date) {
