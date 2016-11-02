@@ -52,7 +52,6 @@ $( function() {
       }
     }).done((response) => {
       console.log(response);
-
     });
   }
   });

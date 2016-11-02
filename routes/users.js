@@ -56,9 +56,7 @@ module.exports = (knex) => {
                   name: user,
                   password_digest: hash
                 }).then(function (result) {
-                  if(result.rowCount === '1') {
-                    res.redirect("/../..")
-                  }
+                    res.redirect("../../");
                 }).catch((err) => console.log(err));
               });
             } else {
